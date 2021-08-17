@@ -3,3 +3,4 @@ Tennis_Windows_x86_64/
 __pycache__/
 *~
 .ipynb_checkpoints/
+*.log
