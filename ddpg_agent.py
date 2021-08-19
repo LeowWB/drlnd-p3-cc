@@ -9,7 +9,7 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
-BUFFER_SIZE = (int)(1e5)# replay buffer size
+BUFFER_SIZE = (int)(1e6)# replay buffer size
 BATCH_SIZE = 128        # minibatch size
 GAMMA = 0.99            # discount factor
 TAU = 1e-3              # for soft update of target parameters
@@ -49,7 +49,7 @@ class Agent():
         self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=LR_CRITIC, weight_decay=WEIGHT_DECAY)
 
         # Noise
-        self.noise_std = 1
+        self.noise_std = 10
 
         # Replay memory
         self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
@@ -88,7 +88,7 @@ class Agent():
         self.actor_local.train()
         if add_noise:
             action += np.random.normal(np.zeros([self.action_size]), np.array([self.noise_std]*self.action_size))
-            self.noise_std *= 0.9999
+            self.noise_std *= 0.99995
         return np.clip(action, -1, 1)
     
     def learn(self, experiences, gamma):
